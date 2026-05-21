@@ -549,9 +549,15 @@ body.mode-gelap .menu-samping {
   height: 36px;
   margin-bottom: 18px;
   border-radius: 13px;
-  background: color-mix(in srgb, currentColor 12%, transparent);
+  background: rgba(79, 70, 229, 0.12);
   font-weight: 900;
 }
+
+.warna-biru .ikon-statistik  { background: rgba(37, 99, 235, 0.12); }
+.warna-merah .ikon-statistik  { background: rgba(225, 29, 72, 0.12); }
+.warna-hijau .ikon-statistik  { background: rgba(22, 163, 74, 0.12); }
+.warna-ungu .ikon-statistik   { background: rgba(124, 58, 237, 0.12); }
+.warna-kuning .ikon-statistik { background: rgba(217, 119, 6, 0.12); }
 
 .kartu-statistik p {
   color: var(--text-soft);
@@ -1114,7 +1120,7 @@ body.mode-gelap .kotak-tanggal {
   padding: 4px 6px;
   border-left: 3px solid var(--warna-jadwal);
   border-radius: 7px;
-  background: color-mix(in srgb, var(--warna-jadwal) 12%, transparent);
+  background: rgba(79, 70, 229, 0.12);
   color: var(--text);
   font-size: 11px;
   font-weight: 800;
@@ -1123,6 +1129,12 @@ body.mode-gelap .kotak-tanggal {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.kategori-kuliah.label-jadwal     { background: rgba(37, 99, 235, 0.12); }
+.kategori-organisasi.label-jadwal { background: rgba(22, 163, 74, 0.12); }
+.kategori-ujian.label-jadwal      { background: rgba(217, 119, 6, 0.12); }
+.kategori-pribadi.label-jadwal    { background: rgba(124, 58, 237, 0.12); }
+.kategori-deadline.label-jadwal   { background: rgba(225, 29, 72, 0.12); }
 
 .jumlah-jadwal-lain {
   color: var(--text-soft);
@@ -1731,7 +1743,7 @@ body.mode-gelap .kotak-tanggal {
 .daftar-tugas,
 .isi-kalender,
 .dashboard-grid-utama {
-  contain: layout paint;
+  /* contain: layout paint removed — causes calendar/event clipping on iOS Safari */
 }
 
 .tombol-menu,
@@ -1773,10 +1785,11 @@ select,
 .kotak-tanggal,
 .mini-calendar-grid span,
 .label-jadwal {
-  contain: layout paint;
+  /* contain: layout paint removed — prevents event label rendering on iOS Safari */
 }
 
 .lapisan-modal {
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
 
@@ -1878,8 +1891,10 @@ select,
   box-shadow: 0 2px 5px rgba(31, 41, 75, 0.06);
   cursor: pointer;
   line-height: 1;
+  -webkit-transform: translateZ(0);
   transform: translateZ(0);
   transition: background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+  -webkit-transition: background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, -webkit-transform 0.16s ease;
   vertical-align: middle;
 }
 
@@ -1894,11 +1909,13 @@ select,
     url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 14 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3.15 7.15L5.75 9.75L10.95 4.25' stroke='white' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"),
     linear-gradient(135deg, #2563eb, #7c3aed);
   box-shadow: 0 4px 10px rgba(79, 70, 229, 0.18);
-  transform: scale(1.04) translateZ(0);
+  -webkit-transform: scale(1.04);
+  transform: scale(1.04);
 }
 
 .checkbox-tugas:active {
-  transform: scale(0.94) translateZ(0);
+  -webkit-transform: scale(0.94);
+  transform: scale(0.94);
 }
 
 .checkbox-tugas:focus-visible {
@@ -2046,12 +2063,18 @@ select,
 
 .checkbox-tugas:checked {
   background-size: 14px 14px, 100% 100%;
-  transform: scale(1.03) translateZ(0);
+  transform: scale(1.03);
+  -webkit-transform: scale(1.03);
 }
 
 .tugas-selesai {
   opacity: 1;
-  background: color-mix(in srgb, var(--surface-strong) 86%, rgba(22, 163, 74, 0.08));
+  background: var(--surface-strong);
+  background: rgba(240, 253, 244, 0.92);
+}
+
+body.mode-gelap .tugas-selesai {
+  background: rgba(20, 38, 26, 0.92);
 }
 
 .tugas-selesai .judul-tugas {
@@ -2176,5 +2199,137 @@ body.mode-gelap .item-tugas .label-peringatan {
 
   .checkbox-tugas:checked {
     background-size: 16px 16px, 100% 100%;
+  }
+}
+
+/* ================================
+   iOS SAFARI CALENDAR COMPATIBILITY
+   Fix khusus WebKit mobile:
+   - contain dihapus di blok Performance Pass (tidak boleh di kalender)
+   - color-mix diganti rgba manual di atas
+   - nested translateZ dihapus untuk cegah stacking context salah
+   - grid, overflow, visibility dipastikan eksplisit
+================================ */
+@supports (-webkit-touch-callout: none) {
+  /* Cegah font auto-zoom saat tap input */
+  body {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Scroll wrapper: will-change untuk promote GPU layer,
+     TANPA translateZ agar tidak buat stacking context baru */
+  .kalender-scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    will-change: scroll-position;
+  }
+
+  /* kartu-kalender: overflow hidden hanya di level ini,
+     jangan transform di sini agar child tidak ter-clip */
+  .kartu-kalender {
+    overflow: hidden;
+  }
+
+  /* Grid 7 kolom: eksplisit display grid + vendor prefix */
+  .nama-hari-kalender,
+  .isi-kalender {
+    display: -webkit-grid;
+    display: grid;
+    -webkit-grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    height: auto;
+    min-height: 0;
+  }
+
+  /* Kotak tanggal: overflow visible agar label muncul */
+  .kotak-tanggal {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    height: auto;
+    min-height: 104px;
+    overflow: visible;
+  }
+
+  /* Elemen jadwal: z-index dan posisi agar muncul di atas */
+  .kepala-tanggal,
+  .daftar-jadwal-di-tanggal,
+  .label-jadwal,
+  .titik-jadwal,
+  .jumlah-jadwal-lain {
+    position: relative;
+    z-index: 1;
+  }
+
+  .kepala-tanggal {
+    display: -webkit-flex;
+    display: flex;
+    min-height: 28px;
+  }
+
+  /* Grid auto-rows min-content agar tinggi baris sesuai konten */
+  .daftar-jadwal-di-tanggal {
+    display: -webkit-grid;
+    display: grid;
+    -webkit-grid-auto-rows: -webkit-min-content;
+    grid-auto-rows: min-content;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  /* Label jadwal: pastikan visibility, opacity, height auto */
+  .label-jadwal {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+    opacity: 1;
+    visibility: visible;
+    background: rgba(79, 70, 229, 0.12);
+  }
+
+  /* Per-kategori rgba (diulang untuk spesifisitas lebih tinggi di iOS) */
+  .kategori-kuliah.label-jadwal     { background: rgba(37, 99, 235, 0.12); }
+  .kategori-organisasi.label-jadwal { background: rgba(22, 163, 74, 0.12); }
+  .kategori-ujian.label-jadwal      { background: rgba(217, 119, 6, 0.12); }
+  .kategori-pribadi.label-jadwal    { background: rgba(124, 58, 237, 0.12); }
+  .kategori-deadline.label-jadwal   { background: rgba(225, 29, 72, 0.12); }
+
+  /* Titik jadwal: block + visible */
+  .titik-jadwal {
+    display: block;
+    -webkit-flex: 0 0 7px;
+    flex: 0 0 7px;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Modal overlay: backdrop-filter aman karena isolated layer */
+  .lapisan-modal {
+    background: rgba(15, 23, 42, 0.42);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 768px) {
+    .kotak-tanggal {
+      min-height: 82px;
+    }
+
+    .nama-hari-kalender,
+    .isi-kalender {
+      min-width: 560px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .nama-hari-kalender,
+    .isi-kalender {
+      min-width: 500px;
+    }
   }
 }
