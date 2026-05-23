@@ -2333,3 +2333,36 @@ body.mode-gelap .item-tugas .label-peringatan {
     }
   }
 }
+
+/* ================================================
+   AVATAR PROFIL HEADER — KLIKABLE
+   Tambahan: klik avatar → halaman Pengaturan
+   Tidak mengubah style .foto-profil-header yang ada.
+   ================================================ */
+
+.foto-profil-header--klikable {
+  cursor: pointer;
+  /* Smooth transition untuk transform dan shadow */
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  /* Outline untuk aksesibilitas keyboard */
+  outline: none;
+}
+
+/* Efek hover: sedikit membesar + shadow lebih dalam */
+.foto-profil-header--klikable:hover {
+  transform: scale(1.12);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.28);
+  opacity: 0.92;
+}
+
+/* Efek saat diklik: sedikit mengecil (pressed feel) */
+.foto-profil-header--klikable:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.18);
+}
+
+/* Fokus keyboard (Tab key) — aksesibel */
+.foto-profil-header--klikable:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}

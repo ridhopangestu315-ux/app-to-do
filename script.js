@@ -2506,3 +2506,27 @@ document.getElementById("tombolTambahMobile").addEventListener("click", function
   elemenHalaman.inputNamaTugas.focus();
 
 });
+
+/* ================================================
+   AVATAR PROFIL HEADER — KLIK KE PENGATURAN
+   Saat avatar diklik → langsung buka halaman Pengaturan
+   ================================================ */
+
+(function () {
+  var avatar = document.getElementById("fotoProfilHeader");
+  if (!avatar) return; // Jaga-jaga kalau elemen tidak ada
+
+  // Klik mouse → buka halaman Pengaturan
+  avatar.addEventListener("click", function () {
+    tampilkanHalaman("pengaturan");
+  });
+
+  // Keyboard: Enter atau Spasi saat fokus → sama seperti klik
+  // (karena elemen ini div, bukan button)
+  avatar.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault(); // Cegah scroll saat tekan Spasi
+      tampilkanHalaman("pengaturan");
+    }
+  });
+})();
