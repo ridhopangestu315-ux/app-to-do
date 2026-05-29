@@ -27,19 +27,81 @@
   --font: "Inter", "Segoe UI", system-ui, sans-serif;
 }
 
+body.light-mode {
+  --bg: #f8fafc;
+  --bg-soft: #eef2ff;
+  --surface: rgba(255, 255, 255, 0.96);
+  --surface-strong: #ffffff;
+  --surface-muted: #f7f8ff;
+  --text: #111827;
+  --text-soft: #475569;
+  --text-faint: #8b94a6;
+  --line: rgba(148, 163, 184, 0.24);
+  --line-strong: rgba(148, 163, 184, 0.34);
+  --shadow-card: 0 10px 28px rgba(15, 23, 42, 0.08);
+  --shadow-hover: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+body.dark-mode,
 body.mode-gelap {
-  --bg: #0b1020;
-  --bg-soft: #11182b;
-  --surface: #151d32;
-  --surface-strong: #18213a;
-  --surface-muted: #1e2945;
-  --text: #edf2ff;
+  --bg: #111827;
+  --bg-soft: #1f2937;
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-strong: #1f2937;
+  --surface-muted: rgba(255, 255, 255, 0.06);
+  --text: #f8fafc;
   --text-soft: #a9b4cc;
   --text-faint: #68748d;
-  --line: rgba(187, 199, 232, 0.14);
-  --line-strong: rgba(187, 199, 232, 0.22);
-  --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.22);
-  --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.28);
+  --line: rgba(187, 199, 232, 0.12);
+  --line-strong: rgba(187, 199, 232, 0.2);
+  --shadow-card: 0 10px 32px rgba(0, 0, 0, 0.26);
+  --shadow-hover: 0 14px 32px rgba(0, 0, 0, 0.26);
+}
+
+body,
+button,
+input,
+select,
+textarea,
+.menu-samping,
+.konten-utama,
+.kepala-halaman,
+.header-actions,
+.tanggal-header,
+.foto-profil-header,
+.sidebar-insight,
+.panel,
+.kartu-aksi,
+.kartu-statistik,
+.form-tugas,
+.kartu-kalender,
+.daftar-tugas,
+.daftar-agenda {
+  transition: background-color 0.32s ease, color 0.32s ease, border-color 0.32s ease, box-shadow 0.32s ease;
+}
+
+.tombol-toggle-tema {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tombol-toggle-tema:hover {
+  transform: translateY(-1px);
+  background: var(--surface-muted);
+  box-shadow: var(--shadow-hover);
+}
+
+.tombol-toggle-tema:active {
+  transform: translateY(0);
 }
 
 * {
@@ -2331,6 +2393,90 @@ body.mode-gelap .item-tugas .label-peringatan {
     .isi-kalender {
       min-width: 500px;
     }
+  }
+}
+
+.section-donasi {
+  margin-top: 32px;
+}
+
+.panel-donasi {
+  padding: 28px;
+  border-radius: 28px;
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--line);
+}
+
+body.dark-mode .panel-donasi,
+body.mode-gelap .panel-donasi {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.20);
+}
+
+.donasi-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) auto;
+  gap: 24px;
+  align-items: center;
+}
+
+.donasi-copy h2 {
+  margin: 12px 0 8px;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.2;
+}
+
+.donasi-copy p {
+  max-width: 680px;
+  color: var(--text-soft);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.donasi-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tombol-donasi {
+  min-width: 220px;
+  padding: 14px 22px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.donasi-footer {
+  margin-top: 22px;
+  color: var(--text-soft);
+  font-size: 13px;
+  text-align: right;
+}
+
+@media (max-width: 900px) {
+  .donasi-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .donasi-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 620px) {
+  .panel-donasi {
+    padding: 24px;
+  }
+
+  .donasi-footer {
+    text-align: left;
+  }
+
+  .tombol-donasi {
+    width: 100%;
+    justify-content: center;
   }
 }
 

@@ -96,6 +96,7 @@ const elemenHalaman = {
   semuaTombolNavMobile: document.querySelectorAll(".tombol-nav-mobile"),
 
   teksSapaan: document.getElementById("teksSapaan"),
+  tombolToggleTema: document.getElementById("tombolToggleTema"),
   teksSapaanHero: document.getElementById("teksSapaanHero"),
   fotoProfilHeader: document.getElementById("fotoProfilHeader"),
   inisialProfilHeader: document.getElementById("inisialProfilHeader"),
@@ -1217,8 +1218,17 @@ function tampilkanInisialProfil(namaPengguna) {
 }
 
 function terapkanModeGelap() {
-  elemenHalaman.body.classList.toggle("mode-gelap", dataAplikasi.modeGelapAktif);
-  elemenHalaman.toggleModeGelap.checked = dataAplikasi.modeGelapAktif;
+  const modeAktif = Boolean(dataAplikasi.modeGelapAktif);
+  elemenHalaman.body.classList.toggle("mode-gelap", modeAktif);
+  elemenHalaman.body.classList.toggle("dark-mode", modeAktif);
+  elemenHalaman.body.classList.toggle("light-mode", !modeAktif);
+  elemenHalaman.toggleModeGelap.checked = modeAktif;
+
+  if (elemenHalaman.tombolToggleTema) {
+    elemenHalaman.tombolToggleTema.textContent = modeAktif ? "☀️" : "🌙";
+    elemenHalaman.tombolToggleTema.setAttribute("aria-label", modeAktif ? "Pindah ke mode terang" : "Pindah ke mode gelap");
+    elemenHalaman.tombolToggleTema.title = modeAktif ? "Mode terang" : "Mode gelap";
+  }
 }
 
 /*
@@ -2115,6 +2125,14 @@ function pasangSemuaEventListener() {
   });
   elemenHalaman.inputFotoProfil.addEventListener("change", prosesUploadFotoProfil);
   elemenHalaman.tombolHapusFoto.addEventListener("click", hapusFotoProfil);
+
+  if (elemenHalaman.tombolToggleTema) {
+    elemenHalaman.tombolToggleTema.addEventListener("click", function () {
+      dataAplikasi.modeGelapAktif = !dataAplikasi.modeGelapAktif;
+      simpanDataKeLocalStorage(namaPenyimpananLocalStorage.modeGelap, dataAplikasi.modeGelapAktif);
+      terapkanModeGelap();
+    });
+  }
 
   elemenHalaman.toggleModeGelap.addEventListener("change", function (event) {
     dataAplikasi.modeGelapAktif = event.target.checked;
