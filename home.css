@@ -494,6 +494,15 @@ body.mode-gelap .menu-samping {
   box-shadow: var(--shadow-glow);
 }
 
+.hero-panel-klikable {
+  cursor: pointer;
+}
+
+.hero-panel-klikable:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 3px;
+}
+
 .hero-panel .label-mini,
 .hero-panel p {
   color: rgba(255, 255, 255, 0.78);
@@ -674,6 +683,11 @@ body.mode-gelap .menu-samping {
 
 .panel p {
   color: var(--text-soft);
+}
+
+.panel-tugas-belum-selesai {
+  border-color: rgba(37, 99, 235, 0.22);
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.055), transparent 42%), var(--surface);
 }
 
 .badge-panel,
@@ -861,6 +875,27 @@ input::placeholder {
 
 .pesan-error:empty {
   opacity: 0;
+}
+
+.peringatan-mata-kuliah-kosong {
+  display: grid;
+  gap: 8px;
+}
+
+.peringatan-mata-kuliah-kosong[hidden] {
+  display: none;
+}
+
+.peringatan-mata-kuliah-kosong p {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.peringatan-mata-kuliah-kosong strong {
+  color: var(--text);
 }
 
 .tombol-utama,
@@ -1232,7 +1267,14 @@ body.mode-gelap .kotak-tanggal {
   place-items: center;
   border: 0;
   border-radius: 10px;
+  background: rgba(225, 29, 72, 0.11);
+  color: #be123c;
   font-weight: 900;
+  cursor: pointer;
+}
+
+.tombol-hapus-jadwal:hover {
+  background: rgba(225, 29, 72, 0.18);
 }
 
 .grid-pengaturan {
@@ -1302,6 +1344,13 @@ body.mode-gelap .kotak-tanggal {
   overflow-wrap: anywhere;
 }
 
+.aksi-mata-kuliah {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+.tombol-edit-mata-kuliah,
 .tombol-hapus-mata-kuliah {
   min-height: 32px;
   padding: 0 12px;
@@ -1309,6 +1358,11 @@ body.mode-gelap .kotak-tanggal {
   border-radius: 10px;
   font-size: 12px;
   font-weight: 800;
+}
+
+.tombol-edit-mata-kuliah {
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--primary);
 }
 
 .item-mata-kuliah.sedang-dihapus {
@@ -1379,6 +1433,33 @@ body.mode-gelap .kotak-tanggal {
   width: min(500px, 100%);
   max-height: 85vh;
   overflow-y: auto;
+}
+
+.ringkasan-fokus-hari-ini {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.ringkasan-fokus-hari-ini span {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(37, 99, 235, 0.14);
+  color: var(--primary);
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.ringkasan-fokus-hari-ini p {
+  margin: 0;
+  font-weight: 800;
 }
 
 .lapisan-modal.tampil .modal-konfirmasi,
@@ -2003,6 +2084,35 @@ select,
   gap: 12px;
 }
 
+.kelompok-tugas {
+  display: grid;
+  gap: 10px;
+}
+
+.judul-kelompok-tugas {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding: 0 4px;
+  color: var(--text-soft);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.judul-kelompok-tugas strong {
+  display: inline-flex;
+  min-width: 24px;
+  min-height: 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(79, 70, 229, 0.1);
+  color: var(--primary);
+  font-size: 12px;
+}
+
 .item-tugas {
   display: flex;
   align-items: center;
@@ -2098,6 +2208,24 @@ select,
   color: #15803d;
 }
 
+.item-tugas .label-bahaya,
+.label-bahaya {
+  background: rgba(225, 29, 72, 0.12);
+  color: #be123c;
+}
+
+.item-tugas .label-hari-ini,
+.label-hari-ini {
+  background: rgba(37, 99, 235, 0.12);
+  color: #1d4ed8;
+}
+
+.item-tugas .label-besok,
+.label-besok {
+  background: rgba(124, 58, 237, 0.12);
+  color: #6d28d9;
+}
+
 .item-tugas .label-peringatan {
   background: rgba(217, 119, 6, 0.11);
   color: #b45309;
@@ -2154,6 +2282,24 @@ body.mode-gelap .item-tugas {
 body.mode-gelap .item-tugas .label-sukses {
   background: rgba(34, 197, 94, 0.14);
   color: #86efac;
+}
+
+body.mode-gelap .item-tugas .label-bahaya,
+body.mode-gelap .label-bahaya {
+  background: rgba(244, 63, 94, 0.16);
+  color: #fda4af;
+}
+
+body.mode-gelap .item-tugas .label-hari-ini,
+body.mode-gelap .label-hari-ini {
+  background: rgba(59, 130, 246, 0.17);
+  color: #93c5fd;
+}
+
+body.mode-gelap .item-tugas .label-besok,
+body.mode-gelap .label-besok {
+  background: rgba(167, 139, 250, 0.17);
+  color: #c4b5fd;
 }
 
 body.mode-gelap .item-tugas .label-peringatan {

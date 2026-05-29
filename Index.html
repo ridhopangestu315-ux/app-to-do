@@ -85,7 +85,7 @@
             </div>
           </div>
 
-          <div class="hero-panel">
+          <div id="panelFokusHariIni" class="hero-panel hero-panel-klikable" role="button" tabindex="0" aria-label="Buka daftar tugas hari ini">
             <span class="label-mini">Fokus hari ini</span>
             <strong id="angkaFokusHariIni">0</strong>
             <p>Tugas dengan deadline hari ini.</p>
@@ -148,7 +148,7 @@
             </article>
             <article class="kartu-statistik warna-ungu">
               <span class="ikon-statistik">↗</span>
-              <p>Progress mingguan</p>
+              <p>Belum selesai</p>
               <h3 id="angkaTugasBelumSelesai">0</h3>
             </article>
           </div>
@@ -156,6 +156,17 @@
 
         <section class="dashboard-grid-utama">
           <div class="kolom-dashboard">
+            <section class="panel panel-tugas-dashboard panel-tugas-belum-selesai">
+              <div class="kepala-panel">
+                <div>
+                  <p class="teks-kecil">Fokus utama</p>
+                  <h3>Tugas Belum Selesai</h3>
+                </div>
+                <span class="badge-panel" id="jumlahTugasBelumSelesaiDashboard">0</span>
+              </div>
+              <div id="daftarTugasBelumSelesaiDashboard" class="daftar-ringkas"></div>
+            </section>
+
             <section class="panel panel-tugas-dashboard">
               <div class="kepala-panel">
                 <div>
@@ -251,6 +262,10 @@
             <select id="pilihanMataKuliah">
               <option value="">Pilih mata kuliah</option>
             </select>
+            <div id="peringatanMataKuliahKosong" class="peringatan-mata-kuliah-kosong" hidden>
+              <p>Tambahkan mata kuliah terlebih dahulu di menu Pengaturan.</p>
+              <button id="tombolKePengaturanMataKuliah" class="tombol-kedua tombol-mini" type="button">Tambah Mata Kuliah</button>
+            </div>
             <small id="pesanErrorMataKuliah" class="pesan-error"></small>
           </div>
 
@@ -377,11 +392,9 @@
           </section>
 
           <section class="panel">
-            <h3>Notifikasi</h3>
-            <label class="baris-switch" for="toggleNotifikasiDeadline">
-              <span>Peringatan deadline dekat</span>
-              <input type="checkbox" id="toggleNotifikasiDeadline">
-            </label>
+            <h3>Cetak Tugas</h3>
+            <p class="teks-kecil-panel">Buat daftar tugas sederhana yang bisa disimpan sebagai PDF.</p>
+            <button id="tombolCetakTugasPdf" class="tombol-kedua" type="button">Cetak Tugas PDF</button>
           </section>
 
           <section class="panel panel-mata-kuliah" id="panelMataKuliah">
@@ -402,8 +415,8 @@
 
           <section class="panel panel-bahaya">
             <h3>Data</h3>
-            <p>Hapus semua tugas yang tersimpan di browser ini.</p>
-            <button id="tombolResetData" class="tombol-bahaya" type="button">Hapus Semua Tugas</button>
+            <p>Hapus semua tugas, agenda, mata kuliah, profil, dan preferensi yang tersimpan di browser ini.</p>
+            <button id="tombolResetData" class="tombol-bahaya" type="button">Hapus Semua Data</button>
           </section>
         </div>
       </section>
@@ -432,8 +445,8 @@
       <div class="ikon-modal" aria-hidden="true">!</div>
       <div class="isi-modal">
         <p class="teks-kecil">Konfirmasi</p>
-        <h2 id="judulModalKonfirmasi">Hapus semua tugas?</h2>
-        <p id="pesanModalKonfirmasi">Data tugas yang sudah dihapus tidak dapat dikembalikan.</p>
+        <h2 id="judulModalKonfirmasi">Hapus semua data?</h2>
+        <p id="pesanModalKonfirmasi">Data yang sudah dihapus tidak dapat dikembalikan.</p>
       </div>
       <div class="aksi-modal">
         <button id="tombolBatalKonfirmasi" class="tombol-modal tombol-modal-kedua" type="button">Batal</button>
@@ -494,11 +507,29 @@
           <p class="teks-kecil">Jadwal di Tanggal</p>
           <h2 id="judulModalDetail">15 Mei 2026</h2>
         </div>
-        <button id="tombolTutupDetailTanggal" class="tombol-tutup-modal" type="button">×</button>
+        <button id="tombolTutupDetailTanggal" class="tombol-tutup-modal" type="button">&times;</button>
       </div>
 
       <div id="daftarJadwalDetailTanggal" class="daftar-jadwal-detail"></div>
       <button id="tombolTambahJadwalDariDetail" class="tombol-tambah-di-modal" type="button">Tambah jadwal di tanggal ini</button>
+    </div>
+  </div>
+
+  <div id="modalFokusHariIni" class="lapisan-modal" aria-hidden="true">
+    <div class="modal-detail-jadwal" role="dialog" aria-modal="true" aria-labelledby="judulModalFokusHariIni">
+      <div class="kepala-modal-detail">
+        <div>
+          <p class="teks-kecil">Fokus Hari Ini</p>
+          <h2 id="judulModalFokusHariIni">Tugas hari ini</h2>
+        </div>
+        <button id="tombolTutupFokusHariIni" class="tombol-tutup-modal" type="button">&times;</button>
+      </div>
+
+      <div class="ringkasan-fokus-hari-ini">
+        <span id="jumlahModalFokusHariIni">0</span>
+        <p>tugas dengan deadline hari ini</p>
+      </div>
+      <div id="daftarModalFokusHariIni" class="daftar-ringkas"></div>
     </div>
   </div>
 
